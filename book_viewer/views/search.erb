@@ -1,0 +1,24 @@
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>">
+  <button type="submit">Search</button>
+</form>
+
+<% if @results.nil? %>
+  "Sorry, no matches were found":
+<% else %>
+  <ul>
+  <% @results.each do |result| %>
+    <li><h4><%= result[:name] %></h4>
+        <%#= result[:contents] %>
+        <ul>
+        <%#= paragraphs_matching(result[:contents], params[:query]) %>
+        <% paragraphs_matching(result[:contents], params[:query]).each do |paragraph_match| %>
+          <li><a href="/chapters/<%= result[:number] %>#paragraph<%= paragraph_match[1]%>"><%= query_highlighted(paragraph_match[0], params[:query]) %></a></li>
+        <% end %>
+        </ul>
+    </li>        
+  <% end %>
+  </ul>
+<% end %>
